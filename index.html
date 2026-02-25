@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>racheal portfolio</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Space+Grotesk:wght@300;400;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --sage: #9CAF88;
+  --sage-dark: #7d8f6e;
+  --brown: #4b3f35;
+  --black: #111111;
+  --white: #f8f8f6;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+body {
+ background: var(--white);
+  color: var(--black);
+  font-family: 'Space Grotesk', sans-serif;
+  overflow-x: hidden;
+   filter: saturate(0.95);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("https://www.transparenttextures.com/patterns/noise.png");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* NAV */
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 8%;
+  font-family: 'IBM Plex Mono', monospace;
+  position: fixed;
+  width: 100%;
+  background: rgba(156,175,136,0.15);
+  backdrop-filter: blur(8px);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--brown);
+  margin-left: 2rem;
+  position: relative;
+  font-size: 0.9rem;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 1px;
+  background: var(--sage-dark);
+  transition: 0.3s ease;
+}
+
+nav a:hover::after { width: 100%; }
+
+/* SECTIONS */
+section {
+  min-height: 100vh;
+  padding: 10rem 10% 6rem 10%;
+  display: flex;
+  align-items: center;
+}
+
+/* HERO */
+.hero {
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 7vw, 6rem);
+  color: var(--brown);
+  line-height: 1.1;
+  transition: transform 0.2s ease;
+}
+
+.hero p {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  color: var(--sage-dark);
+  max-width: 600px;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.8rem 2rem;
+  border: 1px solid var(--brown);
+  text-decoration: none;
+  color: var(--brown);
+  transition: 0.3s ease;
+  background: transparent;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--sage);
+  color: white;
+  border-color: var(--sage);
+  transform: translateY(-3px);
+}
+
+/* ABOUT */
+.about { flex-direction: column; align-items: flex-start; }
+
+.about h2,
+.projects h2,
+.contact h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: var(--brown);
+}
+
+.about-content {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.about-img {
+  width: 200px;
+  height: 300px;
+  border-radius: 20px;
+  transition: 0.4s ease;
+}
+
+.about-img:hover {
+  transform: rotate(-2deg) scale(1.05);
+}
+
+.skills {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.skills span {
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--brown);
+  font-size: 0.8rem;
+  transition: 0.3s;
+}
+
+.skills span:hover {
+  background: var(--sage);
+  color: white;
+  border-color: var(--sage);
+}
+
+/* PROJECTS */
+.projects { flex-direction: column; align-items: flex-start; }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+.project-card {
+  padding: 2rem;
+  border: 1px solid var(--brown);
+  transition: 0.4s ease;
+  background: var(--white);
+  cursor: pointer;
+}
+
+.project-card:hover {
+  background: var(--sage);
+  color: white;
+  transform: rotate(-1deg) scale(1.03);
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal-content {
+  background: var(--white);
+  padding: 2rem;
+  max-width: 800px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  border-radius: 12px;
+}
+
+.modal img {
+  width: 50%;
+  max-height: 250%;
+  object-fit: contain;
+  margin-top: 1rem auto;
+  border-radius: 8px;
+  align-content: center;
+  justify-content: center;
+}
+.now-playing {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  font-family: 'IBM Plex Mono', monospace;
+  opacity: 0.6;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(156,175,136,0.15), transparent 60%);
+  pointer-events: none;
+}
+.subline {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  margin-top: 1rem;
+  color: var(--brown);
+  opacity: 0.7;
+}
+section {
+  border-bottom: 1px solid rgba(75,63,53,0.1);
+}
+.about-img {
+  background: sage-dark;
+  padding: 5px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+.close {
+  font-size: 1.5rem;
+  cursor: pointer;
+  float: right;
+}
+a, .project-card, button {
+  cursor: pointer;
+}
+
+/* CONTACT */
+.contact { flex-direction: column; align-items: flex-start; }
+
+form { max-width: 500px; width: 100%; }
+
+input, textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--brown);
+  background: transparent;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--sage);
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.9rem;
+  color: var(--brown);
+}
+
+/* FADE */
+.fade {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 0.8s ease;
+}
+
+.fade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+
+  nav { flex-direction: column; gap: 1rem; }
+
+  section { padding: 8rem 6% 4rem 6%; }
+
+  .projects-grid { grid-template-columns: 1fr; }
+
+  .about-content { flex-direction: column; text-align: center; }
+
+  .about { align-items: center; }
+
+  .contact { align-items: center; }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">racheal</div>
+  <div>
+    <a href="#home">home</a>
+    <a href="#about">about me</a>
+    <a href="#projects">projects</a>
+    <a href="#contact">contact me</a>
+  </div>
+</nav>
+
+<section id="home" class="hero">
+  <h1 class="fade">Creative<br>Developer</h1>
+  <p class="fade subline">a fusion of creativity and problem solving.</p>
+  <a href="#projects" class="btn fade">see my work</a>
+</section>
+
+<section id="about" class="about">
+  <div class="about-content fade">
+    <img src="C:\Users\User\Downloads\94C0817A-C19A-41F2-997F-0303FD32EBEF (1).JPG" alt="Racheal" class="about-img">
+    <div>
+      <h2 class="fade">about me</h2>
+      <p>hi! my name is racheal and I am a creative developer inspired by midwest emo albums, fashion and late-night coding sessions.</p>
+      <p>I create intuitive, accessible and aesthetically pleasing digital experiences.</p>
+      <br>
+      <p class="now-playing">currently listening to: finn wolfhard- choose the latter</p>
+      <div class="skills">
+        <span>HTML</span>
+        <span>CSS</span>
+        <span>JavaScript</span>
+        <span>Python</span>
+        <span>UX/UI</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="projects">
+  <h2 class="fade">projects</h2>
+  <div class="projects-grid">
+    <div class="project-card fade" onclick="openProject('scrapbook')">
+      <h3>Scrapbook</h3>
+      <p>a social media platform that is whimsical and colorful.</p>
+    </div>
+
+    <div class="project-card fade" onclick="openProject('digidiary')">
+      <h3>Digi-diary</h3>
+      <p>a web app to keep track of your daily activities.</p>
+    </div>
+
+    <div class="project-card fade" onclick="openProject('eggcatcher')">
+      <h3>Egg catcher</h3>
+      <p>a python game for kids.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <h2 class="fade">contact me</h2>
+  <form class="fade" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <input type="text" name="name" placeholder="name" required>
+    <input type="email" name="email" placeholder="email address" required>
+    <textarea rows="5" name="message" placeholder="message" required></textarea>
+    <button class="btn" type="submit">send</button>
+  </form>
+  <br>
+  <br>
+  <br>
+  <div class="social-links fade">
+  <p>or find me on</p>
+  <a href="https://www.linkedin.com/in/racheal-tanaka-chibika-9b9183306" target="_blank">LinkedIn</a>
+  <a href="https://github.com/rachzn" target="_blank">GitHub</a>
+</div>
+</section>
+
+
+<footer>
+  © 2026 my portfolio
+</footer>
+
+<div id="projectModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeProject()">&times;</span>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const faders = document.querySelectorAll('.fade');
+const appearOnScroll = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add('visible');
+  });
+}, { threshold: 0.2 });
+faders.forEach(el => appearOnScroll.observe(el));
+
+document.addEventListener('mousemove', (e) => {
+  const hero = document.querySelector('.hero h1');
+  const x = (window.innerWidth / 2 - e.pageX) / 40;
+  const y = (window.innerHeight / 2 - e.pageY) / 40;
+  hero.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+function openProject(project) {
+  const modal = document.getElementById("projectModal");
+  const body = document.getElementById("modal-body");
+
+  const projects = {
+    scrapbook: `
+      <h2>Scrapbook</h2>
+      <img src="Scrapbook.PNG">
+      <img src="Scrapbook2.PNG">
+     <img src="Scrapbook3.PNG">
+      <img src="Scrapbook4.PNG">
+    `,
+    digidiary: `
+      <h2>Digi-diary</h2>
+      <img src="images/digidiary1.png">
+      <img src="images/digidiary2.png">
+    `,
+    eggcatcher: `
+      <h2>Egg Catcher</h2>
+      <img src="images/egg1.png">
+    `
+  };
+
+  body.innerHTML = projects[project];
+  modal.style.display = "flex";
+}
+
+function closeProject() {
+  document.getElementById("projectModal").style.display = "none";
+}
+</script>
+
+</body>
+</html>
